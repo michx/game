@@ -1,3 +1,3 @@
 FROM python:3.9
-RUN pip install -r requirements.txr
-CMD["python""api-data.py"]
+RUN pip install -r requirements.txt
+CMD ["python""api-data.py"]
