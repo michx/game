@@ -1,10 +1,13 @@
 from flask import Flask, request
 import redis
 from flask_cors import CORS, cross_origin
+
+
+
+app = Flask(__name__)
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
-app = Flask(__name__)
 r = redis.Redis(host='172.25.1.134', port=6379, db=0)
 ts = r.ts()
 
