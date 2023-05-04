@@ -17,3 +17,6 @@ def get():
     key = request.args.get('key')
     value = r.get(key)
     return value
+
+if __name__ == '__main__':
+    app.run()
