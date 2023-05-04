@@ -1,7 +1,7 @@
 from eodhd import APIClient
 import requests, json
 
-YOUR_API_TOKEN ="645364ce9033d9.45059006"
+YOUR_API_TOKEN =""
 
 
 
