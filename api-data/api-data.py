@@ -22,7 +22,11 @@ def set():
 def get():
     key = request.args.get('key')
     value = ts.range(key, 0, 9999999999999)
-    return value
+    a=[]
+    for items in value:
+        y={"timestamp":items[0], "value":items[1]}
+        a.append(y)
+    return a
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0",debug=True)
