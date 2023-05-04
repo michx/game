@@ -2,7 +2,7 @@ from flask import Flask, request
 import redis
 
 app = Flask(__name__)
-r = redis.Redis(host='localhost', port=6379, db=0)
+r = redis.Redis(host='172.25.1.134', port=6379, db=0)
 
 
 @app.route('/set', methods=['POST'])
