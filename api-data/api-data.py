@@ -15,7 +15,7 @@ def set():
 @app.route('/get', methods=['GET'])
 def get():
     key = request.args.get('key')
-    value = r.range(key, 0, -1))
+    value = r.range(key, 0, -1)
     return value
 
 if __name__ == '__main__':
