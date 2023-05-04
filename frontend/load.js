@@ -1,7 +1,7 @@
 let data = [];
 
 // Make AJAX call to API
-fetch('https://example.com/api')
+fetch('http://172.25.1.134:5000/get?key=my_timeseries')
 	.then(response => response.json())
 	.then(jsonData => {
 		// Loop through data returned by API
