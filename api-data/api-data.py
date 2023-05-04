@@ -3,7 +3,7 @@ import redis
 
 app = Flask(__name__)
 r = redis.Redis(host='172.25.1.134', port=6379, db=0)
-
+ts = r.ts()
 
 @app.route('/set', methods=['POST'])
 def set():
@@ -15,7 +15,7 @@ def set():
 @app.route('/get', methods=['GET'])
 def get():
     key = request.args.get('key')
-    value = r.range(key, 0, -1)
+    value = ts.range(key, 0, 9999999999999)
     return value
 
 if __name__ == '__main__':
