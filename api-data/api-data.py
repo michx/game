@@ -24,7 +24,7 @@ def get():
     value = ts.range(key, 0, 9999999999999)
     a=[]
     for items in value:
-        y="["+items[0]+","+items[1]+"]"
+        y="["+str(items[0])+","+str(items[1])+"]"
         a.append(y)
     return a
 
