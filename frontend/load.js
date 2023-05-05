@@ -1,54 +1,75 @@
-let data = [];
+var seriesOptions = [],
+    seriesCounter = 0,
+    names = ['MSFT', 'AAPL', 'GOOG'];
 
-// Make AJAX call to API
-fetch('http://172.25.1.134:5000/get?key=my_timeseries')
-	.then(response => response.json())
-	.then(jsonData => {
-		// Loop through data returned by API
-		jsonData.forEach(item => {
-			// Convert timestamp to Date object
-			let date = new Date(item.timestamp);
+/**
+ * Create the chart when all data is loaded
+ * @return {undefined}
+ */
+function createChart() {
 
-			// Add data point to array
-			data.push({
-				x: date,
-				y: item.value
-			});
-		});
+    Highcharts.stockChart('container', {
 
-		// Create chart with data
-		createChart(data);
-	})
-	.catch(error => {
-		console.error(error);
-	});
+        rangeSelector: {
+            selected: 4
+        },
 
-function createChart(data) {
-	// Get canvas element and context
-	let canvas = document.getElementById('myChart');
-	let context = canvas.getContext('2d');
+        yAxis: {
+            labels: {
+                formatter: function () {
+                    return (this.value > 0 ? ' + ' : '') + this.value + '%';
+                }
+            },
+            plotLines: [{
+                value: 0,
+                width: 2,
+                color: 'silver'
+            }]
+        },
 
-	// Create chart object
-	let chart = new Chart(context, {
-		type: 'line',
-		data: {
-			datasets: [{
-				label: 'My Data',
-				data: data,
-				fill: false,
-				borderColor: 'rgb(75, 192, 192)',
-				lineTension: 0.1
-			}]
-		},
-		options: {
-			scales: {
-				xAxes: [{
-					type: 'time',
-					time: {
-						unit: 'minute'
-					}
-				}]
-			}
-		}
-	});
+        plotOptions: {
+            series: {
+                compare: 'percent',
+                showInNavigator: true
+            }
+        },
+
+        tooltip: {
+            pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.change}%)<br/>',
+            valueDecimals: 2,
+            split: true
+        },
+
+        series: seriesOptions
+    });
 }
+
+function success(data) {
+    var name = this.url.match(/(msft|aapl|goog)/)[0].toUpperCase();
+    var i = names.indexOf(name);
+    seriesOptions[i] = {
+        name: name,
+        data: data
+    };
+
+    // As we're loading the data asynchronously, we don't know what order it
+    // will arrive. So we keep a counter and create the chart when all the data is loaded.
+    seriesCounter += 1;
+
+    if (seriesCounter === names.length) {
+        createChart();
+    }
+}
+
+Highcharts.getJSON(
+    'http://172.25.1.134:5000/get?key=panw',
+    success
+);
+Highcharts.getJSON(
+    'https://cdn.jsdelivr.net/gh/highcharts/highcharts@v7.0.0/samples/data/aapl-c.json',
+    success
+);
+Highcharts.getJSON(
+    'https://cdn.jsdelivr.net/gh/highcharts/highcharts@v7.0.0/samples/data/goog-c.json',
+    success
+);
