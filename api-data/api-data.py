@@ -26,7 +26,7 @@ def get():
     for items in value:
         y="["+str(items[0])+","+str(items[1])+"]"
         a.append(y)
-    return a
+    return '.'.join(a)
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0",debug=True)
